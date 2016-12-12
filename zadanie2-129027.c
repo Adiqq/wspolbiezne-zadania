@@ -2,61 +2,49 @@
 #include<stdlib.h>
 #include <memory.h>
 #include <unistd.h>
-
-void processInput(char *input, int *quitFlag);
-void handleQuit(int *quitFlag);
-void handleCommand(char *command, char **args);
-void tokenize(char *input, char **delimited, int delimitedSize);
+#include <signal.h>
 
 int main(int argc, char **argv){
     int inputSize = 512;
     char input[inputSize];
-    char *result;
-    int quit = 0;
+    pid_t all_child[10];
+    int counter = 0;
 
     puts("Bash simulator initialized");
-    while (result != NULL && quit == 0) {
-        result = fgets(input, inputSize, stdin);
-        processInput(input, &quit);
+    while (fgets(input, inputSize, stdin) != NULL && !strstr(input, "quit")) {
+        char *arg = strtok(input, " ");
+        int i = 0;
+        char *args[32];
+        args[0] = arg;
+
+        while (arg != NULL)
+        {
+            //remove EOF char
+            char *pos;
+            if ((pos=strchr(arg, '\n')) != NULL)
+                *pos = '\0';
+
+            args[i++] = arg;
+            arg = strtok (NULL, " ");
+
+        }
+        //add terminal character to array
+        args[i] = NULL;
+        pid_t pid = fork();
+
+        if(pid == 0){
+            if(execvp(args[0], args) == -1){
+                perror("Error");
+            }
+        } else if(pid != -1){
+            all_child[counter++] = pid;
+        } else{
+            perror("Child could not be created");
+        }
     }
-    free(input);
+    for(int i = 0; i < counter; i++)
+    {
+        kill(all_child[i], SIGTERM);
+    }
     return 0;
-}
-
-void processInput(char* input, int* quitFlag){
-    if(strstr(input, "quit")){
-        handleQuit(quitFlag);
-    } else{
-        char *command;
-        int argumentsSize = 32;
-        char *args[argumentsSize];
-        memset(args, 0, sizeof(args));
-        tokenize(input, args, argumentsSize);
-        command = args[0];
-
-        handleCommand(command, args);
-    }
-}
-
-void handleQuit(int* quitFlag){
-    *quitFlag = 1;
-}
-
-void handleCommand(char *command, char **args){
-    if(fork() == 0){
-        puts("executing");
-        execvp(command, args);
-        exit(0);
-    }
-}
-
-void tokenize(char *input, char **delimited, int delimitedSize){
-    char *arg = strtok(input, " ");
-    delimited[0] = arg;
-    int i = 1;
-    while(arg != NULL && i < delimitedSize){
-        arg = strtok(NULL, " ");
-        delimited[i] = arg;
-        i++;
-    }
 }

@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/cygdrive/d/Projekty/c/zadania-wspolbiezne/zadanie2-129027.c" "/cygdrive/d/Projekty/c/zadania-wspolbiezne/cmake-build-debug/CMakeFiles/zadania_wspolbiezne.dir/zadanie2-129027.c.o"
+  "/root/ClionProjects/wspolbiezne-zadania/zadanie2-129027.c" "/root/ClionProjects/wspolbiezne-zadania/cmake-build-debug/CMakeFiles/zadania_wspolbiezne.dir/zadanie2-129027.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 
