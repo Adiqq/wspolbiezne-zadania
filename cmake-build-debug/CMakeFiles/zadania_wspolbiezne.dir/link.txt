@@ -1,0 +1,1 @@
+/usr/bin/cc  -g  -Wl,--enable-auto-import CMakeFiles/zadania_wspolbiezne.dir/zadanie2-129027.c.o  -o zadania_wspolbiezne.exe -Wl,--out-implib,libzadania_wspolbiezne.dll.a -Wl,--major-image-version,0,--minor-image-version,0 

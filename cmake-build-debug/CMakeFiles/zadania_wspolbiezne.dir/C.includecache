@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/cygdrive/d/Projekty/c/zadania-wspolbiezne/zadanie2-129027.c
+stdio.h
+-
+stdlib.h
+-
+memory.h
+-
+unistd.h
+-
+
